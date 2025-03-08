@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Turnover Prediction</title>
+</head>
+<body>
+<div class="container">
+  <h1 class="title">Employee Turnover Prediction</h1>
+  <form action="#">
+    <div class="form-control">
+      <label for="">Satisfaction</label>
+      <input type="text" id="satisfaction" name="satisfaction" required>
+    </div>
+    <div class="form-control">
+      <label for="">Last Evaluation</label>
+      <input type="text" id="evaluation" name="evaluation" required>
+    </div>
+    <div class="form-control">
+      <label for="">Number of Projects</label>
+      <input type="number" id="projects" name="projects" required>
+    </div>
+    <div class="form-control">
+      <label for="">Average Monthly Hours</label>
+      <input type="number" id="monthly_hours" name="monthly_hours" required>
+    </div>
+    <div class="form-control">
+      <label for="">Time Spent at Company (Years)</label>
+      <input type="number" id="time_spent" name="time_spent" required>
+    </div>
+    <div class="form-control">
+      <label for="">Work Accident</label>
+      <select name="accident" id="accident">
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label for="">Promotion in last 5 Years</label>
+      <select name="promotion" id="promotion">
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label for="">Sales Department</label>
+      <select name="dsales" id="sales">
+        <option value="sales">Sales</option>
+        <option value="marketing">Marketing</option>
+        <option value="IT">IT</option>
+        <option value="prod-managem">Product-Management</option>
+        <option value="hr">HR</option>
+        <option value="support">Support</option>
+        <option value="technical">Technical</option>
+        <option value="accounting">Accounting</option>
+        <option value="rand">RandD</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label for="">Salary</label>
+      <select name="salary" id="salary">
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+    </div>
+  </form>
+  <button id="predict">Predict</button>
+  <div id="predictionResult" style="display:none;">
+    <h2>Prediction Result: <span id="resultText"></span></h2>
+  </div>
+</div>
+
+<style>
+/* Your existing CSS remains unchanged */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+:root{
+    --blue:#4386f7;
+    --red:#f05052;
+    --green:#3ab274;
+    --white:#ffff;
+    --black:#0000;    
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color:#1c5b4b;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100vh;
+    padding: 25px;
+    justify-content: center;
+    align-items: center;
+}
+.container h1{
+    top: 0;
+    color: white;
+    position:relative;
+    font-size: 26px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 80px;
+    border: 2px solid #27b793;
+    border-radius:15px;
+    background-color: #27b793;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+title::before{
+    content: "";
+    position: absolute;
+    top: calc(100% - 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height:4px;
+    background: black;
+    margin-bottom: 100px;
+}
+form{
+    max-width: 800%;
+    margin:  0 auto;
+}
+.form-control{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.form-control input,.form-control select{
+    background-color: #27b793;
+    flex: 1;
+    padding: 2px;
+    font-size: 16px;
+}
+.form-control label{
+    color: white;
+    width: 400px;
+    font-size: 16px;
+}
+button{
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #27b793;
+    top:0;
+    left: 50%;
+    width: auto;
+    font-size: 26px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+button:hover {
+    background-color: #0c5339;
+  }
+@media (max-width:760px) {
+.container h1{
+    font-size: 22px;
+    padding: 8px 16px;
+    margin-bottom: 60px;
+    border-radius: 30px;
+}
+
+    .form-control{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .form-control label{
+        width: 100%;
+        margin-bottom: 5px;
+    } 
+    .form-control input,.form-control select{
+        width: 100%;
+    }
+    form{
+        padding: 15px;
+    }
+}
+@media (max-width:480px) {
+    .container h1{
+        font-size: 18px;
+        padding: 6px 12px;
+        margin-bottom: 40px;
+        border-radius: 20px;
+        box-shadow: none;
+    }
+    form{
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .form-control label{
+        font-size: 14px;
+    }
+    .form-control input,.form-control select{
+        font-size: 14px;
+        padding: 6px;
+    }
+    button{
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+</style>
+
+<script>
+document.getElementById("predict").addEventListener("click", function() {
+  // Get the form values
+  const satisfaction = document.getElementById("satisfaction").value;
+  const evaluation = document.getElementById("evaluation").value;
+  const projects = document.getElementById("projects").value;
+  const monthly_hours = document.getElementById("monthly_hours").value;
+  const time_spent = document.getElementById("time_spent").value;
+  const accident = document.getElementById("accident").value;
+  const promotion = document.getElementById("promotion").value;
+  const sales = document.getElementById("sales").value;
+  const salary = document.getElementById("salary").value;
+
+  // Sample prediction logic (this should be replaced with actual ML model prediction)
+  let prediction = "No data for prediction"; // Placeholder result
+
+  if (parseFloat(satisfaction) < 5) {
+    prediction = "Employee is likely to leave the company.";
+  } else {
+    prediction = "Employee is likely to stay in the company.";
+  }
+
+  // Display the prediction result
+  document.getElementById("predictionResult").style.display = "block";
+  document.getElementById("resultText").textContent = prediction;
+
+  // Reset the form after prediction
+  const form = document.querySelector("form");
+  form.reset();
+});
+</script>
+</body>
+</html>
